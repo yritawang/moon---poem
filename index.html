@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moon Poem</title>
+    <title>i love you to the moon & (chen chen)</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <audio id="backgroundMusic" loop>
+        <source src="Moon River - Fingerstyle Guitar Solo - Bill Tyers.mp3" type="audio/mpeg">
+        sorry your browser does not support the audio element. imagine moon river playing on gentle guitar.
+    </audio>
+    <!-- audio controls -->
+    <div class="audio-controls">
+        <button id="playBtn" class="audio-btn">
+            <pre class="btn-ascii btn-default">
+      __..------..__
+   .-"         __       "-.
+ .'        ."``__``".        '.
+ |        (   (__)   )        |
+ \         '..____..'         /
+  '.                        .'
+      `--...______...--`</pre>
+            <pre class="btn-ascii btn-hover">
+      _...::::::::::..._
+   .::::::::::::::::::::::::.
+ .::::::::::::``__``:::::::::::.
+ |:::::::::(   (__)   )::::::::::|
+ \:::::::::::..____..:::::::::::/
+  ':::::::::::::::::::::::::::'
+    `--::::::::::::::::::--`
+       ```````````</pre>
+        </button>
+        <button id="pauseBtn" class="audio-btn playing" style="display: none;">
+            <pre class="btn-ascii btn-active">
+     _...::::::::::..._
+   .::::::::::::::::::::::::.
+ .::::::::::::``__``:::::::::::.
+ |:::::::::(   (__)   )::::::::::|
+ \:::::::::::..____..:::::::::::/
+  ':::::::::::::::::::::::::::'
+    `--::::::::::::::::::--`
+        ```````````</pre>
+        </button>
+    </div>
+
     <!-- intro -->
     <div id="introPage" class="page active">
         <div class="moon-container" id="introMoon">
@@ -19,8 +57,7 @@
     <!-- stanza 1 -->
     <div id="stanza1Page" class="page">
         <div class="poem-header">
-            i love you to the moon
-            <span class="ampersand" id="headerAmpersand">&amp;</span>
+            i love you to the moon &amp;
         </div>
         <svg class="connections" viewBox="0 0 100 100" preserveAspectRatio="none">
             <line class="connection-line" x1="25" y1="20" x2="77" y2="25" />
@@ -30,7 +67,8 @@
 
         <div class="star-wrapper star1-wrapper">
             <div class="star star1 hollow" data-line="1">
-                <pre class="star-ascii">    /.
+                <pre class="star-ascii">
+    /.
 __ / |_
 \   "   '-.
  &gt;     .'
@@ -42,7 +80,8 @@ __ / |_
 
         <div class="star-wrapper star2-wrapper">
             <div class="star star2 hollow" data-line="2">
-                <pre class="star-ascii">     .  
+                <pre class="star-ascii">     
+     .  
     / \    
 .--' " '-.-    
  '.      / 
@@ -54,7 +93,8 @@ __ / |_
 
         <div class="star-wrapper star3-wrapper">
             <div class="star star3 hollow" data-line="3">
-                <pre class="star-ascii">    /\___ 
+                <pre class="star-ascii">    
+    /\___ 
 ..' "    / 
  `.    '/
    |.-'.\</pre>
@@ -64,10 +104,12 @@ __ / |_
 
         <div class="star-wrapper star4-wrapper">
             <div class="star star4 hollow" data-line="4">
-                <pre class="star-ascii">     /`.._
- -'` -'' " /
+                <pre class="star-ascii">     
+     /`.._
+  -'` -'' "/
    `.     \
-    /_.''-.\</pre>
+    /_.''-.\
+</pre>
             </div>
             <div class="poem-line">moon cottage <span class="parenthetical">(so pretty)</span>, then start a moon garden</div>
         </div>
@@ -107,7 +149,6 @@ __ / |_
                 <pre class="flower-bottom"> _ \/_</pre>
             </div>
         </div>
-
         <div class="flower-wrapper row-top" style="left: 24%; top: 21%;">
             <div class="flower-word">lots</div>
             <div class="flower">
@@ -116,7 +157,6 @@ __ / |_
                 <pre class="flower-bottom">_\|__</pre>
             </div>
         </div>
-
         <div class="flower-wrapper row-top" style="left: 33%; top: 19.5%;">
             <div class="flower-word">of</div>
             <div class="flower">
@@ -127,7 +167,6 @@ __ / |_
 </pre>
             </div>
         </div>
-
         <div class="flower-wrapper flower-special row-top" style="left: 43%; top: 20.5%;">
             <div class="flower-word">moon</div>
             <div class="flower">
@@ -136,7 +175,7 @@ __ / |_
 (._)*(_)</pre>
                 <pre class="flower-bottom"> /(_)
  (\|
- _ |__ </pre>
+ _ |__ </pre>
             </div>
         </div>
 
@@ -153,8 +192,8 @@ __ / |_
         <div class="flower-wrapper row-top" style="left: 66%; top: 21%;">
             <div class="flower-word"><span class="parenthetical">(so healthy),</span></div>
             <div class="flower">
-                <pre class="flower-top">   _
- /(_@</pre>
+                <pre class="flower-top">    _
+  /(_@</pre>
                 <pre class="flower-bottom">  |,
 _\| _</pre>
             </div>
@@ -170,7 +209,7 @@ _\| _</pre>
             </div>
         </div>
 
-        <!-- left row three flowers -->
+        <!-- left row 3 flowers -->
         <div class="flower-wrapper row-left" style="left: 13%; top: 40%;">
             <div class="flower-word">i was</div>
             <div class="flower">
@@ -191,8 +230,8 @@ _ |__</pre>
             </div>
         </div>
 
-        <div class="flower-wrapper row-left" style="left: 33%; top: 39%;">
-            <div class="flower-word">moon lighting</div>
+        <div class="flower-wrapper flower-special row-left" style="left: 33%; top: 39%;">
+            <div class="flower-word">moonlighting</div>
             <div class="flower">
                 <pre class="flower-top">    _
   _(_)_
@@ -203,14 +242,15 @@ _ |__</pre>
             </div>
         </div>
 
-        <!-- RIGHT ROW (4 flowers) -->
+        <!-- right row 4 flowers -->
         <div class="flower-wrapper row-right" style="left: 62%; top: 39%;">
             <div class="flower-word">as</div>
             <div class="flower">
                 <pre class="flower-top"> *__**_*
-(\/)(\)
-(\/)(\)</pre>
-                <pre class="flower-bottom"> _|__|_</pre>
+ (\/)(\)
+</pre>
+                <pre class="flower-bottom"> (\/)(\)
+_|__|_</pre>
             </div>
         </div>
 
@@ -219,7 +259,7 @@ _ |__</pre>
             <div class="flower">
                 <pre class="flower-top">     __
  _ /(_)</pre>
-                <pre class="flower-bottom"> (/|  `
+                <pre class="flower-bottom"> (/|  `
    |_</pre>
             </div>
         </div>
@@ -227,14 +267,14 @@ _ |__</pre>
         <div class="flower-wrapper row-right" style="left: 78%; top: 39%;">
             <div class="flower-word">online</div>
             <div class="flower">
-                <pre class="flower-top">  (\ 
+                <pre class="flower-top">  (\ 
    |/)</pre>
                 <pre class="flower-bottom"> _\|__</pre>
             </div>
         </div>
 
         <div class="flower-wrapper flower-special row-right" style="left: 86%; top: 40%;">
-            <div class="flower-word">moon ologist</div>
+            <div class="flower-word">moonologist</div>
             <div class="flower">
                 <pre class="flower-top">    _
   _(_)_
@@ -245,7 +285,7 @@ _ |__</pre>
             </div>
         </div>
 
-        <!-- BOTTOM ROW (7 flowers) -->
+        <!-- bottom row 4 flowers -->
         <div class="flower-wrapper row-bottom" style="left: 10%; top: 63%;">
             <div class="flower-word">most</div>
             <div class="flower">
@@ -259,7 +299,7 @@ _ |__</pre>
         <div class="flower-wrapper row-bottom" style="left: 20%; top: 61%;">
             <div class="flower-word">weekends,</div>
             <div class="flower">
-                <pre class="flower-top">   _  _
+                <pre class="flower-top">   _  _
  (_\/_)
 (_>()<_)
  (_/\_) </pre>
@@ -281,8 +321,8 @@ _ \/_</pre>
         <div class="flower-wrapper row-bottom" style="left: 42%; top: 61%;">
             <div class="flower-word">this</div>
             <div class="flower">
-                <pre class="flower-top">  _ 
- {`} 
+                <pre class="flower-top">  _ 
+ {`} 
 (/|\)</pre>
                 <pre class="flower-bottom">_|__</pre>
             </div>
@@ -312,13 +352,13 @@ _ \/_</pre>
             <div class="flower-word">immensely</div>
             <div class="flower">
                 <pre class="flower-top">  ._
-.{}O.</pre>
+ .{}O.</pre>
                 <pre class="flower-bottom">{}o0o{}
   \|/_</pre>
             </div>
         </div>
 
-        <!-- ASCII Moon (dashed circle) -->
+        <!-- stanza 2 moon -->
         <div class="ascii-moon-container">
             <div class="ascii-moon dashed-moon" id="stanza2Moon">
                 <pre class="ascii-default">   _..._
@@ -340,85 +380,194 @@ _ \/_</pre>
     <!-- stanza 3 -->
     <div id="stanza3Page" class="page">
         <div class="poem-header">i love you to the moon &amp;</div>
-        
-        
-        <!-- Train Station (right side, always visible) -->
-        <div class="train-station-container">
-            <pre class="train-station">                                 _______   _______
-            (\<>_<>/)/ _______\_
-      ___  _ /- _.--'' ' __  ___ ''--._
-     (\<.-'_.-.'  ```` /___||___\    ``'.
-  _.<'_.-' _ /_.-------._______.-------.|
- /_.-' _. .-.|  ```    |.----- |  ``   '!
-|  .:!| | | |! ```    !|      !| ``    !!
-| ||||| | |/|| `     !'|     //| `    !'!
-| .''!| | |/|!       / |    `  |     // !
-! . '-_'! | ||     //  |       |   //   !
- `. .  '-. `!'._`--==_ |._____.|_ '_.=-`!
-   "  -   ! !'! ___    ! _____ ! "   ___!
-     .  ._| |. [_I_]___||     || __ [_I_!
-      "   !/|'!        !| :// |!        !
-        . |/|. ._______|'-----'| _____ _.
-         "!_|'!         !        !        !
-           .!. .___ __ |        |____ ___.
-            "'!________j___ ___l________j
-              ._.'---''''-------'''---''|
-               "         //     //      |
-                 ._____________________.'
-                  `>_______________<_>___7
-                     ``````````````` ````
-                      <__>___7
-                        `````````````````
-  <_>      <_></pre>
+        <div class="ascii-moon-container">
+            <div class="ascii-moon dotted-moon" id="stanza3Moon">
+                <pre class="ascii-default">   _..._ 
+ .::::  `.
+::::::    :
+::::::    :
+`:::::   .'
+  `'::.-'</pre>
+                <pre class="ascii-hover">   _..._ 
+ .::::  `.
+:moon:    :
+:house    :
+`:::::   .'
+  `'::.-'</pre>
+            </div>
         </div>
-        <!-- Smoke Puff 1: Top Right -->
-        <div class="smoke-wrapper smoke-1" style="left: 68%; top: 10%;">
-            <pre class="smoke-puff clickable">(=..)</pre>
+        
+        <!-- train station -->
+        <div class="train-station-container">
+            <pre class="train-station">                    
+            _______   _______
+            (\<>_<>/)/ _______\_
+      ___  _ /- _.--'' ' __  ___ ''--._
+     (\<.-'_.-.'  ```` /___||___\    ``'.
+  _.<'_.-' _ /_.-------._______.-------.|
+ /_.-' _. .-.|  ```    |.----- |  ``   '!
+|  .:!| | | |! ```    !|      !| ``    !!
+| ||||| | |/|| `     !'|     //| `    !'!
+| .''!| | |/|!       / |    `  |     // !
+! . '-_'! | ||     //  |       |   //   !
+ `. .  '-. `!'._`--==_ |._____.|_ '_.=-`!
+   "  -   ! !'! ___    ! _____ ! "   ___!
+     .  ._| |. [_I_]___||     || __ [_I_!
+      "   !/|'!        !| :// |!        !
+        . |/|. ._______|'-----'| _____ _.
+         "!_|'!         !        !        !
+           .!. .___ __ |        |____ ___.
+            "'!________j___ ___l________j
+              ._.'---''''-------'''---''|
+               "         //     //      |
+                 ._____________________.'
+                  `>_______________<_>___7
+                     ``````````````` ````
+                      <__>___7
+                        `````````````````</pre>
+        </div>
+
+        <!-- puff 1 -->
+        <div class="smoke-wrapper smoke-1" style="left: 77%; top: 22%;">
+            <pre class="smoke-puff clickable">   _.-'-. -
+  .( `   `-  )
+:=(  ` ,_    `)
+(_,_"]_.:-   ' )
+   -'__,---'`--'</pre>
             <div class="smoke-text">logical next step, are you</div>
         </div>
-        <!-- Smoke Puff 2: Top Right (lower) -->
-        <div class="smoke-wrapper smoke-2" style="left: 75%; top: 13%;">
-            <pre class="smoke-puff clickable">   __.--._
- _(  ` -. `)-_
-=(  `.__.'-  )=
- `-.____.--'</pre>
-            <div class="smoke-text">are you</div>
-        </div>
-        <!-- Smoke Puff 3: Bottom Center -->
-        <div class="smoke-wrapper smoke-3" style="left: 48%; top: 62%;">
-            <pre class="smoke-puff clickable">  __.--._
-_(  `   )._
-`-.____.--'</pre>
+        
+        <!-- puff 2 -->
+        <div class="smoke-wrapper smoke-2" style="left: 56%; top: 8%;">
+            <pre class="smoke-puff clickable">       
+    ___.-- -    
+ _( `--      .\
+.-'           ).  --,
+ (__, (_            ) )
+  `-.__.__.\ _, --_--'
+</pre>
             <div class="smoke-text">packing your bags yet,</div>
         </div>
-        <!-- Smoke Puff 4: Bottom Left -->
-        <div class="smoke-wrapper smoke-4" style="left: 38%; top: 67%;">
-            <pre class="smoke-puff clickable">(=..)</pre>
-            <div class="smoke-text">don't forget your</div>
+        
+        <!-- puff 3 -->
+        <div class="smoke-wrapper smoke-3" style="left: 33%; top: 67%;">
+            <pre class="smoke-puff clickable">    
+     _ . --.
+   ( `       )
+.-'           `--,
+(                )
+(  .__,           )
+  '-'_ _,--'`--'
+            </pre>
+            <div class="smoke-text">don't forget your sailor moon jean jacket</div>
         </div>
-        <!-- Smoke Puff 5: Top Left -->
-        <div class="smoke-wrapper smoke-5" style="left: 18%; top: 18%;">
-            <pre class="smoke-puff clickable">  __.--._
-_(  ` -.  )_
-{  `.__.'-  }
- `-.____.--'</pre>
-            <div class="smoke-text">sailor moon jean jacket</div>
+        
+        <!-- puff 4 -->
+        <div class="smoke-wrapper smoke-4" style="left: 18%; top: 18%;">
+            <pre class="smoke-puff clickable">     
+      __. _
+    (   `   )
+.-`(       .,  ).
+(.,(.          '`.
+`-- ` --`'` -  /, )
+  '__,- --'`  --'</pre>
+            <div class="smoke-text">let's wear our sailor moon jean jackets while twirling in that lighter,</div>
         </div>
-        <!-- Smoke Puff 6: Left Middle -->
-        <div class="smoke-wrapper smoke-6" style="left: 8%; top: 35%;">
-            <pre class="smoke-puff clickable"> __.--._
-( `   ). 
-{..  {    ``. }
-'-.__.--   /.</pre>
-            <div class="smoke-text">let's wear our</div>
+    </div>
+    <!-- stanza 4 -->
+    <div id="stanza4Page" class="page">
+        <div class="poem-header">i love you to the moon &amp;</div>
+        
+        <!-- center moon -->
+        <div class="ascii-moon-container">
+            <div class="ascii-moon dotted-moon" id="stanza4Moon">
+                <pre class="ascii-default">     
+   _..._
+ .::'   `.
+:::       :
+:::       :
+`::.     .'
+  `':..-'</pre>
+                <pre class="ascii-hover">     
+   _..._
+ .::'   `.
+our       :
+home      :
+`::.     .'
+  `':..-'</pre>
+            </div>
         </div>
-        <!-- Smoke Puff 7: Left Lower -->
-        <div class="smoke-wrapper smoke-7" style="left: 12%; top: 52%;">
-            <pre class="smoke-puff clickable"> __.-.
-_(-   ),_
-{... {     
-'-.__.--</pre>
-            <div class="smoke-text">our sailor moon jean jackets while twirling in that lighter,</div>
+        
+        <!-- bunny 1 -->
+        <div class="bunny-wrapper bunny-1" style="left: 20%; top: 25%;">
+            <div class="bunny-text">queerer moon gravity, let's love each other</div>
+            <pre class="bunny clickable">       
+       ,_,_
+      | '. '.
+      \   \  \
+       '.__\_|_
+           /`  '.
+          /    ^ )
+         /    _.'
+       .'   (_
+     .'      \'-._
+    /         '.__)
+   ;        .-. '.
+ /`|       /   '._)
+|   \     /--.
+ '--'\   '-.__)
+      )_____)</pre>
+        </div>
+        
+        <!-- bunny 2-->
+        <div class="bunny-wrapper bunny-2" style="left: 36%; top: 14%;">
+            <div class="bunny-text"><span class="parenthetical">(so good)</span> on the moon, let's love</div>
+            <pre class="bunny clickable">    
+    _,  ,_    
+   (  )(  )  
+    \ (,) / 
+    / .  .\ 
+   (  = ^ =)
+    )  `- ( 
+   (       )
+,_( \ \  / /)_,
+`----\_!!_/---'</pre>
+        </div>
+        
+        <!-- bunny 3 -->
+        <div class="bunny-wrapper bunny-3" style="left: 65%; top: 14%;">
+            <div class="bunny-text">the moon</div>
+            <pre class="bunny clickable">    
+    _,  ,_
+   (  )(  )
+    \(xx) /
+    /,  , \
+   ( = ^ = )
+    ) -'  (
+   (       )
+,_(\ \  / / )_,
+`---\_!!_/----'</pre>
+        </div>
+        
+        <!-- bunny 4 -->
+        <div class="bunny-wrapper bunny-4" style="left: 75%; top: 45%;">
+            <div class="bunny-text">on the moon</div>
+            <pre class="bunny clickable">                   
+                   .".
+                / /
+    .-------.--/
+   "._ _.- /o. o\
+      "   (   ^ )
+          /    (
+         /      Y
+      .-"       |
+    /  _     \   \
+   /    `.". ) /' )
+  Y      )( / /(,/
+ ,|     /     )
+( |    /     /
+ " \_ (__   (__  
+     "._,)--._,)</pre>
         </div>
     </div>
 

@@ -1,19 +1,52 @@
+// wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+
 // state management
 let currentStarIndex = 0;
 const totalStars = 4;
 const stars = document.querySelectorAll('.star');
 const lines = document.querySelectorAll('.connection-line');
 
+// audio controls
+const audio = document.getElementById('backgroundMusic');
+const playBtn = document.getElementById('playBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+
+// play button handler
+if (playBtn) {
+    playBtn.addEventListener('click', () => {
+        audio.play();
+        playBtn.style.display = 'none';
+        pauseBtn.style.display = 'block';
+        pauseBtn.classList.add('playing');
+    });
+}
+
+// pause button handler
+if (pauseBtn) {
+    pauseBtn.addEventListener('click', () => {
+        audio.pause();
+        pauseBtn.style.display = 'none';
+        pauseBtn.classList.remove('playing');
+        playBtn.style.display = 'block';
+    });
+}
+
+// auto-play audio when entering stanza 1
+let audioStarted = false;
+
 // intro page - generate scrambled text
 const text = "i love you to the moon &";
 const moonText = document.getElementById('moonText');
 
-text.split('').forEach((char) => {
-    const letter = document.createElement('span');
-    letter.className = 'letter scrambled';
-    letter.textContent = char;
-    moonText.appendChild(letter);
-});
+if (moonText) {
+    text.split('').forEach((char) => {
+        const letter = document.createElement('span');
+        letter.className = 'letter scrambled';
+        letter.textContent = char;
+        moonText.appendChild(letter);
+    });
+}
 
 // page navigation
 function showPage(pageId) {
@@ -34,21 +67,42 @@ function showPage(pageId) {
         console.error('Page not found:', pageId);
     }
     
-    // Initialize stanza 1 when shown
+    // start stanza 1 when shown
     if (pageId === 'stanza1Page') {
         initializeStanza1();
+        
+        // auto-play audio on first entry to stanza 1
+        if (!audioStarted && audio) {
+            audio.play().then(() => {
+                audioStarted = true;
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'block';
+                pauseBtn.classList.add('playing');
+            }).catch(error => {
+                console.log('Autoplay prevented by browser:', error);
+                // show play button if autoplay fails
+                playBtn.style.display = 'block';
+                pauseBtn.style.display = 'none';
+            });
+        }
     }
     
-    // Initialize stanza 2 when shown
+    // start stanza 2 when shown
     if (pageId === 'stanza2Page') {
         console.log('Initializing Stanza 2');
         initializeStanza2();
     }
     
-    // Initialize stanza 3 when shown
+    // start stanza 3 when shown
     if (pageId === 'stanza3Page') {
         console.log('Initializing Stanza 3');
         initializeStanza3();
+    }
+
+    // start stanza 4 when shown
+    if (pageId === 'stanza4Page') {
+        console.log('Initializing Stanza 4');
+        initializeStanza4();
     }
 }
 
@@ -58,7 +112,7 @@ let currentRow = null;
 function initializeStanza2() {
     console.log('initializeStanza2 called');
     
-    // Reset all flowers and words
+    // reset all flowers and words
     const flowers = document.querySelectorAll('#stanza2Page .flower');
     const words = document.querySelectorAll('#stanza2Page .flower-word');
     
@@ -70,13 +124,13 @@ function initializeStanza2() {
         word.classList.remove('visible');
     });
     
-    // Reset and disable all click zones
+    // reset and disable all click zones
     const zones = document.querySelectorAll('#stanza2Page .click-zone');
     zones.forEach(zone => {
         zone.classList.remove('completed', 'active');
     });
     
-    // Activate only the top row
+    // activate only the top row
     const topZone = document.querySelector('.top-row-zone');
     if (topZone) {
         topZone.classList.add('active');
@@ -86,20 +140,20 @@ function initializeStanza2() {
     console.log('Stanza 2 initialized, top row active');
 }
 
-// Generic function to animate any row
+// animate flower row
 function animateRow(rowClass, nextRow) {
     const flowerWrappers = Array.from(document.querySelectorAll(`#stanza2Page .${rowClass}`));
     
     console.log(`Animating ${rowClass}, flowers:`, flowerWrappers.length);
     
-    // Disable current zone
+    // disable current zone
     const currentZone = document.querySelector(`.${rowClass.replace('row-', '')}-row-zone`);
     if (currentZone) {
         currentZone.classList.remove('active');
         currentZone.classList.add('completed');
     }
     
-    // STEP 1: Show flower tops with random stagger
+    // 1: show flower tops with random stagger
     flowerWrappers.forEach((wrapper) => {
         const flower = wrapper.querySelector('.flower');
         const randomDelay = Math.random() * 0.4;
@@ -109,7 +163,7 @@ function animateRow(rowClass, nextRow) {
         }, randomDelay * 1000);
     });
     
-    // STEP 2: Animate words in with random timing
+    // 2: animate words in with random timing
     setTimeout(() => {
         flowerWrappers.forEach((wrapper) => {
             const word = wrapper.querySelector('.flower-word');
@@ -132,7 +186,7 @@ function animateRow(rowClass, nextRow) {
             );
         });
         
-        // After words appear, activate next row or moon
+        // after words appear, activate next row or moon
         setTimeout(() => {
             if (nextRow) {
                 const nextZone = document.querySelector(`.${nextRow}-row-zone`);
@@ -142,7 +196,7 @@ function animateRow(rowClass, nextRow) {
                     console.log(`${nextRow} row activated`);
                 }
             } else {
-                // All rows complete - activate moon
+                // all rows complete time to activate moon
                 const stanza2Moon = document.getElementById('stanza2Moon');
                 stanza2Moon.classList.add('active');
                 console.log('All rows complete, moon activated');
@@ -176,26 +230,24 @@ function initializeStanza1() {
 }
 
 // transition from intro to stanza 1 (no ampersand trail)
-document.getElementById('introMoon').addEventListener('click', () => {
-    showPage('stanza1Page');
-});
+const introMoon = document.getElementById('introMoon');
+if (introMoon) {
+    introMoon.addEventListener('click', () => {
+        showPage('stanza1Page');
+    });
+}
 
-// GSAP animation for poem line entrance - word by word
+// GSAP animation for poem line entrance
 function animatePoemLine(poemLine) {
-    // Get the original HTML
     const originalHTML = poemLine.innerHTML;
     
-    // Simple approach: split by spaces but preserve HTML tags
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = originalHTML;
     
-    // Clear the poem line
     poemLine.innerHTML = '';
     
-    // Process text nodes and elements
     const processNode = (node) => {
         if (node.nodeType === Node.TEXT_NODE) {
-            // Split text into words
             const words = node.textContent.split(' ').filter(w => w.trim());
             words.forEach((word, idx) => {
                 const wordSpan = document.createElement('span');
@@ -203,29 +255,23 @@ function animatePoemLine(poemLine) {
                 wordSpan.textContent = word;
                 poemLine.appendChild(wordSpan);
                 
-                // Add space after word (except last)
                 if (idx < words.length - 1 || node.nextSibling) {
                     poemLine.appendChild(document.createTextNode(' '));
                 }
             });
         } else if (node.nodeType === Node.ELEMENT_NODE) {
-            // Wrap entire element (like <span class="parenthetical">) in a word span
             const wordSpan = document.createElement('span');
             wordSpan.className = 'word';
             wordSpan.appendChild(node.cloneNode(true));
             poemLine.appendChild(wordSpan);
             
-            // Add space after if there's a next sibling
             if (node.nextSibling) {
                 poemLine.appendChild(document.createTextNode(' '));
             }
         }
     };
     
-    // Process all child nodes
     Array.from(tempDiv.childNodes).forEach(processNode);
-    
-    // Animate each word popping up from bottom
     const wordElements = poemLine.querySelectorAll('.word');
     
     gsap.fromTo(wordElements,
@@ -259,10 +305,8 @@ stars.forEach((star, index) => {
             const wrapper = star.closest('.star-wrapper');
             const poemLine = wrapper.querySelector('.poem-line');
             if (poemLine) {
-                // Make visible first (but words still invisible)
                 poemLine.classList.add('visible');
                 
-                // Animate words
                 animatePoemLine(poemLine);
             }
             
@@ -282,7 +326,7 @@ stars.forEach((star, index) => {
     });
 });
 
-// ASCII moon click handler (Stanza 1)
+// ASCII moon click handler
 const asciiMoon = document.getElementById('asciiMoon');
 if (asciiMoon) {
     asciiMoon.addEventListener('click', () => {
@@ -293,7 +337,7 @@ if (asciiMoon) {
     });
 }
 
-// Click handlers for all four rows
+// click handlers for all four rows
 const topZone = document.querySelector('.top-row-zone');
 if (topZone) {
     topZone.addEventListener('click', () => {
@@ -329,12 +373,12 @@ if (bottomZone) {
     bottomZone.addEventListener('click', () => {
         console.log('Bottom zone clicked');
         if (currentRow === 'bottom') {
-            animateRow('row-bottom', null); // null means activate moon next
+            animateRow('row-bottom', null);
         }
     });
 }
 
-// Stanza 2 moon click handler
+// stanza 2 moon click handler
 const stanza2Moon = document.getElementById('stanza2Moon');
 if (stanza2Moon) {
     stanza2Moon.addEventListener('click', () => {
@@ -345,16 +389,17 @@ if (stanza2Moon) {
     });
 }
 
-// ===== STANZA 3: TRAIN STATION =====
+// stanza 3 train station
 let currentSmokeIndex = 0;
-const smokeOrder = [1, 2, 3, 4, 5, 6, 7]; // Order of smoke puffs to click
+const smokeOrder = [1, 2, 3, 4];
 
 function initializeStanza3() {
     console.log('initializeStanza3 called');
     
-    // Reset all smoke puffs and text
+    // reset all smoke puffs and text
     const smokePuffs = document.querySelectorAll('#stanza3Page .smoke-puff');
     const smokeTexts = document.querySelectorAll('#stanza3Page .smoke-text');
+    const smokeWrappers = document.querySelectorAll('#stanza3Page .smoke-wrapper');
     
     smokePuffs.forEach(puff => {
         puff.classList.remove('clicked');
@@ -364,68 +409,249 @@ function initializeStanza3() {
         text.classList.remove('visible');
     });
     
-    // Make first smoke puff clickable
+    // hide all smoke wrappers except the first one
+    smokeWrappers.forEach((wrapper) => {
+        const smokeClass = Array.from(wrapper.classList).find(c => c.startsWith('smoke-') && c !== 'smoke-wrapper');
+        if (smokeClass) {
+            const smokeNum = parseInt(smokeClass.split('-')[1]);
+            
+            if (smokeNum !== 1) {
+                wrapper.classList.remove('visible');
+            }
+        }
+    });
+    
+    // reset smoke index
     currentSmokeIndex = 0;
+    
+    // make first smoke puff clickable
     const firstPuff = document.querySelector(`#stanza3Page .smoke-${smokeOrder[0]} .smoke-puff.clickable`);
     if (firstPuff) {
         firstPuff.style.pointerEvents = 'auto';
     }
     
-    console.log('Stanza 3 initialized');
+    console.log('Stanza 3 initialized - only smoke 1 visible');
 }
 
-// Smoke puff click handlers
-document.querySelectorAll('#stanza3Page .smoke-puff.clickable').forEach((puff, index) => {
-    puff.addEventListener('click', () => {
-        const wrapper = puff.closest('.smoke-wrapper');
-        const smokeClass = Array.from(wrapper.classList).find(c => c.startsWith('smoke-'));
-        const smokeNum = parseInt(smokeClass.split('-')[1]);
-        
-        // Check if this is the current smoke puff in sequence
-        if (smokeNum === smokeOrder[currentSmokeIndex]) {
-            console.log(`Smoke ${smokeNum} clicked`);
+// smoke puff click handlers
+function attachSmokePuffHandlers() {
+    document.querySelectorAll('#stanza3Page .smoke-puff.clickable').forEach((puff) => {
+        puff.addEventListener('click', () => {
+            const wrapper = puff.closest('.smoke-wrapper');
+            const smokeClass = Array.from(wrapper.classList).find(c => c.startsWith('smoke-') && c !== 'smoke-wrapper');
+            const smokeNum = parseInt(smokeClass.split('-')[1]);
             
-            // Mark as clicked (reduce opacity)
-            puff.classList.add('clicked');
-            puff.style.pointerEvents = 'none';
-            
-            // Show text with GSAP animation
-            const text = wrapper.querySelector('.smoke-text');
-            if (text) {
-                gsap.fromTo(text,
-                    {
-                        opacity: 0,
-                        y: 10,
-                        scale: 0.9
-                    },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        scale: 1,
-                        duration: 0.4,
-                        ease: "back.out(1.7)"
+            // check if this is the current smoke puff in sequence
+            if (smokeNum === smokeOrder[currentSmokeIndex]) {
+                console.log(`Smoke ${smokeNum} clicked`);
+                
+                // mark as clicked: change color to dark blue
+                puff.classList.add('clicked');
+                puff.style.pointerEvents = 'none';
+                
+                const text = wrapper.querySelector('.smoke-text');
+                    if (text) {
+                        text.classList.add('visible');
+                        animatePoemLine(text);
                     }
-                );
-                text.classList.add('visible');
-            }
-            
-            // Move to next smoke puff
-            currentSmokeIndex++;
-            
-            if (currentSmokeIndex < smokeOrder.length) {
-                // Enable next smoke puff
-                const nextPuff = document.querySelector(`#stanza3Page .smoke-${smokeOrder[currentSmokeIndex]} .smoke-puff.clickable`);
-                if (nextPuff) {
-                    nextPuff.style.pointerEvents = 'auto';
+                
+                // move to next smoke puff
+                currentSmokeIndex++;
+                
+                if (currentSmokeIndex < smokeOrder.length) {
+                    // show and enable next smoke puff
+                    const nextSmokeNum = smokeOrder[currentSmokeIndex];
+                    const nextWrapper = document.querySelector(`#stanza3Page .smoke-${nextSmokeNum}`);
+                    const nextPuff = document.querySelector(`#stanza3Page .smoke-${nextSmokeNum} .smoke-puff.clickable`);
+                    
+                    if (nextWrapper) {
+                        // make wrapper visible
+                        nextWrapper.classList.add('visible');
+                        
+                        // animate the smoke puff appearance
+                        gsap.fromTo(nextWrapper,
+                            {
+                                opacity: 0,
+                                scale: 0.8
+                            },
+                            {
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.5,
+                                ease: "back.out(1.7)",
+                                delay: 0.3
+                            }
+                        );
+                    }
+                    
+                    if (nextPuff) {
+                        nextPuff.style.pointerEvents = 'auto';
+                    }
+                } else {
+                    // all smoke puffs clicked - activate moon
+                    console.log('All smoke puffs clicked! Activating moon...');
+                    const stanza3Moon = document.getElementById('stanza3Moon');
+                    if (stanza3Moon) {
+                        stanza3Moon.classList.add('active');
+                    }
                 }
-            } else {
-                // All smoke puffs clicked - could activate something here
-                console.log('All smoke puffs clicked!');
-                // TODO: Add transition to next stanza or final interaction
+            }
+        });
+        
+        // initially disable all smoke puffs except the first
+        puff.style.pointerEvents = 'none';
+    });
+}
+
+// call this once on page load
+attachSmokePuffHandlers();
+
+// Stanza 3 moon click handler
+const stanza3Moon = document.getElementById('stanza3Moon');
+if (stanza3Moon) {
+    stanza3Moon.addEventListener('click', () => {
+        if (stanza3Moon.classList.contains('active')) {
+            console.log('Transitioning to Stanza 4');
+            showPage('stanza4Page');
+        }
+    });
+}
+
+// stanza 4
+let currentBunnyIndex = 0;
+const bunnyOrder = [1, 2, 3, 4];
+
+function initializeStanza4() {
+    console.log('initializeStanza4 called');
+    
+    // reset all bunnies and text
+    const bunnies = document.querySelectorAll('#stanza4Page .bunny');
+    const bunnyTexts = document.querySelectorAll('#stanza4Page .bunny-text');
+    const bunnyWrappers = document.querySelectorAll('#stanza4Page .bunny-wrapper');
+    
+    bunnies.forEach(bunny => {
+        bunny.classList.remove('clicked');
+    });
+    
+    bunnyTexts.forEach(text => {
+        text.classList.remove('visible');
+    });
+    
+    // hide all bunny wrappers except the first one
+    bunnyWrappers.forEach((wrapper) => {
+        const bunnyClass = Array.from(wrapper.classList).find(c => c.startsWith('bunny-') && c !== 'bunny-wrapper');
+        if (bunnyClass) {
+            const bunnyNum = parseInt(bunnyClass.split('-')[1]);
+            
+            if (bunnyNum !== 1) {
+                wrapper.classList.remove('visible');
             }
         }
     });
     
-    // Initially disable all smoke puffs except the first
-    puff.style.pointerEvents = 'none';
+    // reset bunny index
+    currentBunnyIndex = 0;
+    
+    // make first bunny clickable
+    const firstBunny = document.querySelector(`#stanza4Page .bunny-${bunnyOrder[0]} .bunny.clickable`);
+    if (firstBunny) {
+        firstBunny.style.pointerEvents = 'auto';
+    }
+    
+    console.log('Stanza 4 initialized - only bunny 1 visible');
+}
+
+// bunny click handlers
+function attachBunnyHandlers() {
+    document.querySelectorAll('#stanza4Page .bunny.clickable').forEach((bunny) => {
+        bunny.addEventListener('click', () => {
+            const wrapper = bunny.closest('.bunny-wrapper');
+            const bunnyClass = Array.from(wrapper.classList).find(c => c.startsWith('bunny-') && c !== 'bunny-wrapper');
+            const bunnyNum = parseInt(bunnyClass.split('-')[1]);
+            
+            // check if this is the current bunny in sequence
+            if (bunnyNum === bunnyOrder[currentBunnyIndex]) {
+                console.log(`Bunny ${bunnyNum} clicked`);
+                
+                // mark as clicked - change color to dark blue
+                bunny.classList.add('clicked');
+                bunny.style.pointerEvents = 'none';
+                
+                // show text with GSAP animation
+                const text = wrapper.querySelector('.bunny-text');
+                if (text) {
+                    gsap.fromTo(text,
+                        {
+                            opacity: 0,
+                            y: -10,
+                            scale: 0.9
+                        },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.4,
+                            ease: "back.out(1.7)"
+                        }
+                    );
+                    text.classList.add('visible');
+                }
+                
+                // move to next bunny
+                currentBunnyIndex++;
+                
+                if (currentBunnyIndex < bunnyOrder.length) {
+                    // show and enable next bunny
+                    const nextBunnyNum = bunnyOrder[currentBunnyIndex];
+                    const nextWrapper = document.querySelector(`#stanza4Page .bunny-${nextBunnyNum}`);
+                    const nextBunny = document.querySelector(`#stanza4Page .bunny-${nextBunnyNum} .bunny.clickable`);
+                    
+                    if (nextWrapper) {
+                        nextWrapper.classList.add('visible');
+                        
+                        gsap.fromTo(nextWrapper,
+                            {
+                                opacity: 0,
+                                scale: 0.8
+                            },
+                            {
+                                opacity: 1,
+                                scale: 1,
+                                duration: 0.5,
+                                ease: "back.out(1.7)",
+                                delay: 0.3
+                            }
+                        );
+                    }
+                    
+                    if (nextBunny) {
+                        nextBunny.style.pointerEvents = 'auto';
+                    }
+                } else {
+                    console.log('All bunnies clicked! Activating moon...');
+                    const stanza4Moon = document.getElementById('stanza4Moon');
+                    if (stanza4Moon) {
+                        stanza4Moon.classList.add('active');
+                    }
+                }
+            }
+        });
+        
+        bunny.style.pointerEvents = 'none';
+    });
+}
+
+attachBunnyHandlers();
+
+// Stanza 4 moon click handler
+const stanza4Moon = document.getElementById('stanza4Moon');
+if (stanza4Moon) {
+    stanza4Moon.addEventListener('click', () => {
+        if (stanza4Moon.classList.contains('active')) {
+            console.log('Transitioning to End Page');
+            console.log('End page not yet created');
+        }
+    });
+}
+
 });
