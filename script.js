@@ -77,16 +77,31 @@ function showPage(pageId) {
             audioControls.classList.remove('dark');
         }
     }
-    // header credit overlay toggle
-const creditTrigger = document.getElementById('moonText');
-const creditOverlay = document.getElementById('creditOverlay');
-
-if (creditTrigger && creditOverlay) {
-    creditTrigger.addEventListener('click', (e) => {
-        e.stopPropagation(); // prevents accidental page transitions later
-        creditOverlay.classList.toggle('active');
+    
+    // header credit overlay toggle for all poem headers
+    const creditOverlay = document.getElementById('creditOverlay');
+    const creditBox = document.querySelector('.credit-box');
+    const allPoemHeaders = document.querySelectorAll('.poem-header');
+    
+    allPoemHeaders.forEach(header => {
+        header.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (creditOverlay) {
+                creditOverlay.classList.toggle('active');
+            }
+        });
     });
-}
+    
+    // close overlay when clicking outside the credit box
+    if (creditOverlay) {
+        document.addEventListener('click', (e) => {
+            if (creditOverlay.classList.contains('active')) {
+                if (!creditBox.contains(e.target) && !allPoemHeaders[0].contains(e.target)) {
+                    creditOverlay.classList.remove('active');
+                }
+            }
+        });
+    }
     // start stanza 1 when shown
     if (pageId === 'stanza1Page') {
         initializeStanza1();
@@ -693,10 +708,10 @@ function initializeFinalPage() {
     
     // quadrants for each stanza
     const quadrants = [
-        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.30 }, 
-        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.30 }, 
-        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.60 }, 
-        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.60 } 
+        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.25 }, 
+        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.25 }, 
+        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.75 }, 
+        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.75 } 
     ];
     
     // stanza groupings (line counts: 4, 3, 4, 3)
@@ -755,9 +770,9 @@ function initializeFinalPage() {
     }, 1500);
 
     function startFloating(element) {
-    const duration = 3 + Math.random() * 1; 
-    const xMove = (Math.random() - 0.5) * 75; 
-    const yMove = (Math.random() - 0.5) * 75;
+    const duration = 4 + Math.random() * 2; 
+    const xMove = (Math.random() - 0.5) * 300; 
+    const yMove = (Math.random() - 0.5) * 200;
     
     gsap.to(element, {
         x: `+=${xMove}`,

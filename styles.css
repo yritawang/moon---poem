@@ -57,6 +57,21 @@ body {
     left: 40px;
     font-size: 16px;
     color: rgba(245, 243, 232, 0.7);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.poem-header:hover {
+    animation: headerBlink 0.8s ease-in-out infinite;
+}
+
+@keyframes headerBlink {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.3;
+    }
 }
 
 .ampersand {
@@ -323,7 +338,6 @@ body {
     cursor: pointer;
     transition: opacity 0.3s ease;
     margin-bottom: 15px;
-    pointer-events: none;
     position: relative;
 }
 
@@ -643,6 +657,7 @@ body {
     margin: 0;
     white-space: pre;
     transition: opacity 0.3s ease, color 0.3s ease;
+    pointer-events: auto;
 }
 
 .smoke-puff.clickable {
@@ -798,7 +813,7 @@ body {
     white-space: pre;
 }
 
-/* ===== FINAL PAGE ===== */
+/* final */
 #finalPage {
     background: #FBF2E1;
     background: radial-gradient(circle at center, #FBF2E1 8%, #FEE259 9%, #3A7A9A 10%, #FBF2E1 16%);
@@ -851,25 +866,49 @@ body {
 }
 
 .credit-overlay {
-    position: absolute;
+    position: fixed;
+    top: 70px;
+    left: 40px;
+    width: auto;
+    height: auto;
+    background: transparent;
     z-index: 999;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.credit-overlay.active {
+    pointer-events: auto;
+    opacity: 1;
 }
 
 .credit-box {
-    margin-top: 8px;
-    padding: 10px 14px;
-    background: rgba(255,255,255,0.9);
-    border: 1px solid #ccc;
-    font-size: 0.9rem;
-    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #071848;
+    padding: 20px 30px;
+    text-align: center;
+    max-width: 300px;
     pointer-events: auto;
+}
+
+.credit-box p {
+    margin: 8px 0;
+    font-family: 'Velvelyne', serif;
+    font-size: 0.95rem;
+    color: #071848;
+    line-height: 1.4;
 }
 
 .credit-box a {
     text-decoration: underline;
+    color: #254297;
+    transition: color 0.2s ease;
 }
 
-.hidden {
-    display: none;
+.credit-box a:hover {
+    color: #071848;
 }
