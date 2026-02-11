@@ -92,6 +92,11 @@ body {
     transition: opacity 0.2s step-end;
 }
 
+/* dark audio controls */
+.audio-controls.dark .btn-ascii {
+    color: #071848;
+}
+
 /* default state*/
 .audio-btn .btn-default {
     opacity: 1;
@@ -577,6 +582,10 @@ body {
     background: #A1B7C2;
 }
 
+.poem-header-dark{
+    color: #071848;
+}
+
 /* dotted moon for Stanza 3 */
 .dotted-moon {
     color: rgba(7, 24, 72, 0.6);
@@ -745,10 +754,10 @@ body {
         transform: translateY(0);
     }
     50%{
-        transform: translateY(4px);
+        transform: translateY(-6px);
     }
     100% {
-        transform: translateY(4px);
+        transform: translateY(0px);
     }
 }
 
@@ -758,4 +767,109 @@ body {
 
 .bunny.clicked:hover {
     animation: none;
+}
+
+/* fence and flowers */
+.fence {
+    position: absolute;
+    z-index: 1;
+    font-family: 'JGS5', monospace;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #071848;
+}
+
+.fence pre {
+    margin: 0;
+    white-space: pre;
+}
+
+.small-flower {
+    position: absolute;
+    z-index: 1;
+    font-family: 'JGS5', monospace;
+    font-size: 10px;
+    line-height: 1.3;
+    color: #071848;
+}
+
+.small-flower pre {
+    margin: 0;
+    white-space: pre;
+}
+
+/* ===== FINAL PAGE ===== */
+#finalPage {
+    background: #FBF2E1;
+    background: radial-gradient(circle at center, #FBF2E1 8%, #FEE259 9%, #3A7A9A 10%, #FBF2E1 16%);
+
+}
+
+.final-moon {
+    color: #071848;
+}
+
+.final-moon.active {
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.final-moon.active:hover {
+    color: rgba(7, 24, 72, 0.7);
+}
+
+.floating-poem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.poem-word {
+    position: absolute;
+    font-family: 'Velvelyne', serif;
+    font-size: 18px;
+    color: #071848;
+    cursor: grab;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.poem-word:active {
+    cursor: grabbing;
+}
+
+.poem-word.parenthetical {
+    font-size: 15px;
+    filter: blur(1px);
+}
+
+.mooncabin{
+    color: #254297;
+}
+
+.credit-overlay {
+    position: absolute;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.credit-box {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    pointer-events: auto;
+}
+
+.credit-box a {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
 }

@@ -48,6 +48,7 @@ if (moonText) {
     });
 }
 
+
 // page navigation
 function showPage(pageId) {
     console.log('showPage called with:', pageId);
@@ -66,7 +67,26 @@ function showPage(pageId) {
     } else {
         console.error('Page not found:', pageId);
     }
-    
+
+    // Change audio controls color based on page
+    const audioControls = document.querySelector('.audio-controls');
+    if (audioControls) {
+        if (pageId === 'stanza3Page' || pageId === 'stanza4Page') {
+            audioControls.classList.add('dark');
+        } else {
+            audioControls.classList.remove('dark');
+        }
+    }
+    // header credit overlay toggle
+const creditTrigger = document.getElementById('moonText');
+const creditOverlay = document.getElementById('creditOverlay');
+
+if (creditTrigger && creditOverlay) {
+    creditTrigger.addEventListener('click', (e) => {
+        e.stopPropagation(); // prevents accidental page transitions later
+        creditOverlay.classList.toggle('active');
+    });
+}
     // start stanza 1 when shown
     if (pageId === 'stanza1Page') {
         initializeStanza1();
@@ -79,7 +99,7 @@ function showPage(pageId) {
                 pauseBtn.style.display = 'block';
                 pauseBtn.classList.add('playing');
             }).catch(error => {
-                console.log('Autoplay prevented by browser:', error);
+                console.log('autoplay prevented by browser:', error);
                 // show play button if autoplay fails
                 playBtn.style.display = 'block';
                 pauseBtn.style.display = 'none';
@@ -89,20 +109,26 @@ function showPage(pageId) {
     
     // start stanza 2 when shown
     if (pageId === 'stanza2Page') {
-        console.log('Initializing Stanza 2');
+        console.log('initializing Stanza 2');
         initializeStanza2();
     }
     
     // start stanza 3 when shown
     if (pageId === 'stanza3Page') {
-        console.log('Initializing Stanza 3');
+        console.log('initializing Stanza 3');
         initializeStanza3();
     }
 
     // start stanza 4 when shown
     if (pageId === 'stanza4Page') {
-        console.log('Initializing Stanza 4');
+        console.log('initializing Stanza 4');
         initializeStanza4();
+    }
+
+    // Initialize final page when shown
+    if (pageId === 'finalPage') {
+        console.log('initializing Final Page');
+        initializeFinalPage();
     }
 }
 
@@ -137,14 +163,14 @@ function initializeStanza2() {
         currentRow = 'top';
     }
     
-    console.log('Stanza 2 initialized, top row active');
+    console.log('stanza 2 initialized. starting top row active');
 }
 
 // animate flower row
 function animateRow(rowClass, nextRow) {
     const flowerWrappers = Array.from(document.querySelectorAll(`#stanza2Page .${rowClass}`));
     
-    console.log(`Animating ${rowClass}, flowers:`, flowerWrappers.length);
+    console.log(`animating ${rowClass}, flowers:`, flowerWrappers.length);
     
     // disable current zone
     const currentZone = document.querySelector(`.${rowClass.replace('row-', '')}-row-zone`);
@@ -199,7 +225,7 @@ function animateRow(rowClass, nextRow) {
                 // all rows complete time to activate moon
                 const stanza2Moon = document.getElementById('stanza2Moon');
                 stanza2Moon.classList.add('active');
-                console.log('All rows complete, moon activated');
+                console.log('all rows complete. moon clickable now.');
             }
         }, 1200);
         
@@ -310,15 +336,12 @@ stars.forEach((star, index) => {
                 animatePoemLine(poemLine);
             }
             
-            // show connection line to the next star
             if (index < totalStars - 1) {
                 lines[index].classList.add('visible');
                 
-                // activate next star
                 currentStarIndex++;
                 stars[currentStarIndex].classList.add('active');
             } else {
-                // all stars completed - activate ASCII moon
                 const asciiMoon = document.getElementById('asciiMoon');
                 asciiMoon.classList.add('active');
             }
@@ -331,7 +354,7 @@ const asciiMoon = document.getElementById('asciiMoon');
 if (asciiMoon) {
     asciiMoon.addEventListener('click', () => {
         if (asciiMoon.classList.contains('active')) {
-            console.log('Transitioning to Stanza 2');
+            console.log('going to stanza 2');
             showPage('stanza2Page');
         }
     });
@@ -341,7 +364,7 @@ if (asciiMoon) {
 const topZone = document.querySelector('.top-row-zone');
 if (topZone) {
     topZone.addEventListener('click', () => {
-        console.log('Top zone clicked');
+        console.log('top zone clicked');
         if (currentRow === 'top') {
             animateRow('row-top', 'left');
         }
@@ -351,7 +374,7 @@ if (topZone) {
 const leftZone = document.querySelector('.left-row-zone');
 if (leftZone) {
     leftZone.addEventListener('click', () => {
-        console.log('Left zone clicked');
+        console.log('left zone clicked');
         if (currentRow === 'left') {
             animateRow('row-left', 'right');
         }
@@ -361,7 +384,7 @@ if (leftZone) {
 const rightZone = document.querySelector('.right-row-zone');
 if (rightZone) {
     rightZone.addEventListener('click', () => {
-        console.log('Right zone clicked');
+        console.log('right zone clicked');
         if (currentRow === 'right') {
             animateRow('row-right', 'bottom');
         }
@@ -371,7 +394,7 @@ if (rightZone) {
 const bottomZone = document.querySelector('.bottom-row-zone');
 if (bottomZone) {
     bottomZone.addEventListener('click', () => {
-        console.log('Bottom zone clicked');
+        console.log('bottom zone clicked');
         if (currentRow === 'bottom') {
             animateRow('row-bottom', null);
         }
@@ -383,7 +406,7 @@ const stanza2Moon = document.getElementById('stanza2Moon');
 if (stanza2Moon) {
     stanza2Moon.addEventListener('click', () => {
         if (stanza2Moon.classList.contains('active')) {
-            console.log('Transitioning to Stanza 3');
+            console.log('going to Stanza 3');
             showPage('stanza3Page');
         }
     });
@@ -430,7 +453,7 @@ function initializeStanza3() {
         firstPuff.style.pointerEvents = 'auto';
     }
     
-    console.log('Stanza 3 initialized - only smoke 1 visible');
+    console.log('stanza 3 starting. one smoke visible.');
 }
 
 // smoke puff click handlers
@@ -443,7 +466,7 @@ function attachSmokePuffHandlers() {
             
             // check if this is the current smoke puff in sequence
             if (smokeNum === smokeOrder[currentSmokeIndex]) {
-                console.log(`Smoke ${smokeNum} clicked`);
+                console.log(`smoke ${smokeNum} clicked`);
                 
                 // mark as clicked: change color to dark blue
                 puff.classList.add('clicked');
@@ -489,7 +512,7 @@ function attachSmokePuffHandlers() {
                     }
                 } else {
                     // all smoke puffs clicked - activate moon
-                    console.log('All smoke puffs clicked! Activating moon...');
+                    console.log('all smoke puffs clicked. moon time.');
                     const stanza3Moon = document.getElementById('stanza3Moon');
                     if (stanza3Moon) {
                         stanza3Moon.classList.add('active');
@@ -506,12 +529,12 @@ function attachSmokePuffHandlers() {
 // call this once on page load
 attachSmokePuffHandlers();
 
-// Stanza 3 moon click handler
+// stanza 3 moon click handler
 const stanza3Moon = document.getElementById('stanza3Moon');
 if (stanza3Moon) {
     stanza3Moon.addEventListener('click', () => {
         if (stanza3Moon.classList.contains('active')) {
-            console.log('Transitioning to Stanza 4');
+            console.log('transitioning to Stanza 4');
             showPage('stanza4Page');
         }
     });
@@ -558,7 +581,7 @@ function initializeStanza4() {
         firstBunny.style.pointerEvents = 'auto';
     }
     
-    console.log('Stanza 4 initialized - only bunny 1 visible');
+    console.log('starting stanza 4 with one bunny visible');
 }
 
 // bunny click handlers
@@ -571,7 +594,7 @@ function attachBunnyHandlers() {
             
             // check if this is the current bunny in sequence
             if (bunnyNum === bunnyOrder[currentBunnyIndex]) {
-                console.log(`Bunny ${bunnyNum} clicked`);
+                console.log(`bunny ${bunnyNum} clicked`);
                 
                 // mark as clicked - change color to dark blue
                 bunny.classList.add('clicked');
@@ -608,27 +631,13 @@ function attachBunnyHandlers() {
                     
                     if (nextWrapper) {
                         nextWrapper.classList.add('visible');
-                        
-                        gsap.fromTo(nextWrapper,
-                            {
-                                opacity: 0,
-                                scale: 0.8
-                            },
-                            {
-                                opacity: 1,
-                                scale: 1,
-                                duration: 0.5,
-                                ease: "back.out(1.7)",
-                                delay: 0.3
-                            }
-                        );
                     }
-                    
+
                     if (nextBunny) {
                         nextBunny.style.pointerEvents = 'auto';
                     }
                 } else {
-                    console.log('All bunnies clicked! Activating moon...');
+                    console.log('bunnies clicked. final page time.');
                     const stanza4Moon = document.getElementById('stanza4Moon');
                     if (stanza4Moon) {
                         stanza4Moon.classList.add('active');
@@ -643,13 +652,165 @@ function attachBunnyHandlers() {
 
 attachBunnyHandlers();
 
-// Stanza 4 moon click handler
+// stanza 4 moon click handler
 const stanza4Moon = document.getElementById('stanza4Moon');
 if (stanza4Moon) {
     stanza4Moon.addEventListener('click', () => {
         if (stanza4Moon.classList.contains('active')) {
-            console.log('Transitioning to End Page');
-            console.log('End page not yet created');
+            console.log('Transitioning to Final Page');
+            showPage('finalPage');
+        }
+    });
+}
+
+// final page
+const poemLines = [
+    "not back, let's not come back, let's go by the speed of",
+    "queer zest & stay up",
+    "there & get ourselves a little",
+    "moon cottage (so pretty), then start a moon garden",
+    "with lots of moon veggies (so healthy), i mean",
+    "i was already moonlighting",
+    "as an online moonologist",
+    "most weekends, so this is the immensely",
+    "logical next step, are you",
+    "packing your bags yet, don't forget your",
+    "sailor moon jean jacket, let's wear",
+    "our sailor moon jean jackets while twirling in that lighter,",
+    "queerer moon gravity, let's love each other",
+    "(so good) on the moon, let's love",
+    "the moon",
+    "on the moon"
+];
+
+function initializeFinalPage() {
+    console.log('starting final page');
+    
+    const floatingPoem = document.getElementById('floatingPoem');
+    if (!floatingPoem) return;
+    
+    floatingPoem.innerHTML = '';
+    
+    // quadrants for each stanza
+    const quadrants = [
+        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.30 }, 
+        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.30 }, 
+        { x: window.innerWidth * 0.25, y: window.innerHeight * 0.60 }, 
+        { x: window.innerWidth * 0.75, y: window.innerHeight * 0.60 } 
+    ];
+    
+    // stanza groupings (line counts: 4, 3, 4, 3)
+    const stanzas = [
+        poemLines.slice(0, 3),   // Stanza 1
+        poemLines.slice(4, 7),   // Stanza 2
+        poemLines.slice(8, 11),  // Stanza 3
+        poemLines.slice(12, 15)  // Stanza 4
+    ];
+    
+    let allWords = [];
+    
+    stanzas.forEach((stanza, stanzaIndex) => {
+        const quadrant = quadrants[stanzaIndex];
+        
+        stanza.forEach((line, lineIndex) => {
+            const words = line.split(' ');
+            words.forEach((word, wordIndex) => {
+                const wordEl = document.createElement('div');
+                wordEl.className = 'poem-word';
+                wordEl.textContent = word;
+                
+
+                const offsetX = (Math.random() - 0.5) * 150;
+                const offsetY = (Math.random() - 0.5) * 150;
+                
+                wordEl.style.left = (quadrant.x + offsetX) + 'px';
+                wordEl.style.top = (quadrant.y + offsetY) + 'px';
+                wordEl.style.opacity = '0';
+                
+                floatingPoem.appendChild(wordEl);
+                allWords.push({ el: wordEl, stanzaIndex });
+            });
+        });
+    });
+    
+    gsap.to('.poem-word', {
+        opacity: 1,
+        duration: 1,
+        delay: 0.2
+    });
+    
+    setTimeout(() => {
+        allWords.forEach((wordObj) => {
+            startFloating(wordObj.el);
+            makeDraggable(wordObj.el);
+        });
+        
+        // activate moon
+        setTimeout(() => {
+            const finalMoon = document.getElementById('finalMoon');
+            if (finalMoon) {
+                finalMoon.classList.add('active');
+            }
+        }, 3000);
+    }, 1500);
+
+    function startFloating(element) {
+    const duration = 3 + Math.random() * 1; 
+    const xMove = (Math.random() - 0.5) * 75; 
+    const yMove = (Math.random() - 0.5) * 75;
+    
+    gsap.to(element, {
+        x: `+=${xMove}`,
+        y: `+=${yMove}`,
+        duration: duration,
+        ease: "sine.inOut",
+        onComplete: () => startFloating(element)
+    });
+}
+
+function makeDraggable(element) {
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    
+    element.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        initialX = e.clientX - element.offsetLeft;
+        initialY = e.clientY - element.offsetTop;
+        
+        gsap.killTweensOf(element);
+    });
+    
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            
+            element.style.left = currentX + 'px';
+            element.style.top = currentY + 'px';
+        }
+    });
+    
+    document.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            startFloating(element);
+        }
+    });
+}
+
+// final moon click handler
+const finalMoon = document.getElementById('finalMoon');
+}
+const finalMoon = document.getElementById('finalMoon');
+if (finalMoon) {
+    finalMoon.addEventListener('click', () => {
+        if (finalMoon.classList.contains('active')) {
+            console.log('hard refresh');
+            location.reload();
         }
     });
 }
