@@ -888,7 +888,7 @@ body {
 
 .credit-box {
     background: rgba(255, 255, 255, 0.95);
-    border: 1px solid #071848;
+    border: 1px dotted #071848;
     padding: 20px 30px;
     text-align: center;
     max-width: 300px;
